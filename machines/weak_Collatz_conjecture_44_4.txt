@@ -1,0 +1,218 @@
+initial_state: plus_one_not_done_reset_mark
+
+copy_x0
+0 1 L what_bit_to_copy
+1 1 L ignore_bit
+# # R go_to_Collatz_zone_to_run_Collatz
+
+
+ignore_bit
+0 0 L copy_x0
+1 1 L copy_x0
+
+
+what_bit_to_copy
+0 0 R go_to_Collatz_zone_to_copy_bit_0
+1 1 R go_to_Collatz_zone_to_copy_bit_1
+
+
+go_to_Collatz_zone_to_copy_bit_0
+0 0 R go_to_Collatz_zone_to_copy_bit_0
+1 1 R go_to_Collatz_zone_to_copy_bit_0
+# # R copy_bit_0
+
+
+go_to_Collatz_zone_to_copy_bit_1
+0 0 R go_to_Collatz_zone_to_copy_bit_1
+1 1 R go_to_Collatz_zone_to_copy_bit_1
+# # R copy_bit_1
+
+
+copy_bit_0
+0 0 R copy_bit_0
+1 1 R copy_bit_0
+# 0 L go_to_x0_zone_to_continue_copy
+
+
+copy_bit_1
+0 0 R copy_bit_1
+1 1 R copy_bit_1
+# 1 L go_to_x0_zone_to_continue_copy
+
+go_to_x0_zone_to_continue_copy
+0 0 L go_to_x0_zone_to_continue_copy
+1 1 L go_to_x0_zone_to_continue_copy
+# # L copy_x0
+
+
+go_to_Collatz_zone_to_run_Collatz
+0 0 R go_to_Collatz_zone_to_run_Collatz
+1 1 R go_to_Collatz_zone_to_run_Collatz
+# # R Collatz_machine_ignore_trailing_0
+
+Collatz_machine_ignore_trailing_0
+0 a L go_check_if_more_Collatz_iterations_are_needed
+1 a R Collatz_machine_one_carry
+a a R Collatz_machine_ignore_trailing_0
+# a L go_check_if_more_Collatz_iterations_are_needed ; hack to ignre 000
+
+Collatz_machine_one_carry
+0 0 R Collatz_machine_zero_carry
+1 1 R Collatz_machine_one_carry
+# 0 R Collatz_machine_zero_carry
+
+Collatz_machine_zero_carry
+0 1 R Collatz_machine_zero
+1 0 R Collatz_machine_one_carry
+# 1 R Collatz_machine_zero
+
+Collatz_machine_zero
+0 0 R Collatz_machine_zero
+1 1 R Collatz_machine_one
+# # L go_check_if_more_Collatz_iterations_are_needed
+
+Collatz_machine_one
+0 1 R Collatz_machine_zero
+1 0 R Collatz_machine_one_carry
+# 1 R Collatz_machine_zero
+
+go_check_if_more_Collatz_iterations_are_needed
+0 0 L go_check_if_more_Collatz_iterations_are_needed
+1 1 L go_check_if_more_Collatz_iterations_are_needed
+a a L go_check_if_more_Collatz_iterations_are_needed
+# # L check_if_more_Collatz_iterations_are_needed
+
+check_if_more_Collatz_iterations_are_needed
+0 0 L ignore_and_then_check_if_more_Collatz_iterations_are_needed
+1 0 R go_to_Collatz_zone_to_run_Collatz
+# # R go_to_Collatz_zone_then_compare
+
+ignore_and_then_check_if_more_Collatz_iterations_are_needed
+0 0 L check_if_more_Collatz_iterations_are_needed
+1 1 L check_if_more_Collatz_iterations_are_needed
+
+go_to_Collatz_zone_then_compare
+0 0 R go_to_Collatz_zone_then_compare
+1 1 R go_to_Collatz_zone_then_compare
+# # R go_to_end_of_a_in_Collatz_zone_then_compare
+
+go_to_end_of_a_in_Collatz_zone_then_compare
+0 a L go_to_x0_zone_then_compare_to_0
+1 a L go_to_x0_zone_then_compare_to_1
+# a L go_to_x0_zone_then_compare_to_0
+a a R go_to_end_of_a_in_Collatz_zone_then_compare
+
+go_to_x0_zone_then_compare_to_0
+0 0 L go_to_x0_zone_then_compare_to_0
+1 1 L go_to_x0_zone_then_compare_to_0
+# # L find_bit_to_compare_to_0
+a a L go_to_x0_zone_then_compare_to_0
+
+find_bit_to_compare_to_0
+0 1 L compare_to_0
+1 1 L ignore_bit_then_compare_to_0
+# # R check_halting_condition 
+
+ignore_bit_then_compare_to_0
+0 0 L find_bit_to_compare_to_0
+1 1 L find_bit_to_compare_to_0
+
+compare_to_0
+0 0 R go_to_Collatz_zone_then_compare
+1 1 R go_to_Collatz_zone_then_wipe ; 0 != 1
+
+go_to_x0_zone_then_compare_to_1
+0 0 L go_to_x0_zone_then_compare_to_1
+1 1 L go_to_x0_zone_then_compare_to_1
+# # L find_bit_to_compare_to_1
+a a L go_to_x0_zone_then_compare_to_1
+
+find_bit_to_compare_to_1
+0 1 L compare_to_1
+1 1 L ignore_bit_then_compare_to_1
+# # R check_halting_condition 
+
+ignore_bit_then_compare_to_1
+0 0 L find_bit_to_compare_to_1
+1 1 L find_bit_to_compare_to_1
+
+compare_to_1
+0 0 R go_to_Collatz_zone_then_wipe ; 1 != 0
+1 1 R go_to_Collatz_zone_then_compare
+
+check_halting_condition
+0 0 R ignore_bit_then_check_halting_condition
+1 1 R ignore_bit_then_check_halting_condition_1
+# # R wipe_Collatz_zone_then_plus_one
+
+ignore_bit_then_check_halting_condition
+1 1 R check_halting_condition
+
+ignore_bit_then_check_halting_condition_1
+1 1 R check_halting_condition_1
+
+check_halting_condition_1
+0 0 R ignore_bit_then_check_halting_condition_2
+1 1 R ignore_bit_then_check_halting_condition_2
+# # R wipe_Collatz_zone_then_plus_one
+
+ignore_bit_then_check_halting_condition_2
+1 1 R check_halting_condition_2
+
+check_halting_condition_2
+0 0 R ignore_bit_then_check_halting_condition_3
+1 1 R ignore_bit_then_check_halting_condition_3
+# # R wipe_Collatz_zone_then_plus_one
+
+check_halting_condition_3
+0 0 R check_halting_condition_3
+1 1 R check_halting_condition_3
+# # R check_halting_condition_4
+
+check_halting_condition_4
+0 # R wipe_Collatz_zone_then_plus_one
+1 # R wipe_Collatz_zone_then_plus_one
+# HALT
+a # R wipe_Collatz_zone_then_plus_one
+
+go_to_Collatz_zone_then_wipe
+0 0 R go_to_Collatz_zone_then_wipe
+1 1 R go_to_Collatz_zone_then_wipe
+# # R wipe_Collatz_zone_then_plus_one
+
+wipe_Collatz_zone_then_plus_one
+0 # R wipe_Collatz_zone_then_plus_one
+1 # R wipe_Collatz_zone_then_plus_one
+a # R wipe_Collatz_zone_then_plus_one
+# # L go_to_x0_zone_then_plus_one
+
+go_to_x0_zone_then_plus_one
+0 0 L plus_one_MERGE_extend_x0_zone_then_go_copy
+1 0 L plus_one_MERGE_extend_x0_zone_then_go_copy
+# # L go_to_x0_zone_then_plus_one
+ 
+plus_one_MERGE_extend_x0_zone_then_go_copy 
+; Optimisation states 'plus_one'
+; and extend_x0_zone_then_go_copy cound be merged
+0 1 L plus_one_done_reset_mark
+1 0 L plus_one_not_done_reset_mark
+# 0 R go_to_beginning_of_x0_zone_then_copy ; extend_x0_zone_then_go_copy
+
+plus_one_not_done_reset_mark
+0 0 L plus_one_MERGE_extend_x0_zone_then_go_copy
+1 0 L plus_one_MERGE_extend_x0_zone_then_go_copy
+# 0 L plus_one_MERGE_extend_x0_zone_then_go_copy
+
+plus_one_done_reset_mark
+0 0 L plus_one_done
+1 0 L plus_one_done
+# # R go_to_beginning_of_x0_zone_then_copy
+
+plus_one_done
+0 0 L plus_one_done_reset_mark
+1 1 L plus_one_done_reset_mark
+
+go_to_beginning_of_x0_zone_then_copy
+0 0 R go_to_beginning_of_x0_zone_then_copy
+1 1 R go_to_beginning_of_x0_zone_then_copy
+# # L copy_x0

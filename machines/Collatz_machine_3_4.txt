@@ -1,0 +1,24 @@
+; I found it by playing around but in fact is exactly the same as found by P Michel
+; https://arxiv.org/pdf/1409.7322.pdf
+
+initial_state: A
+redundancy: 1
+
+A
+0 0 R A
+1 0 R B 
+2 1 R A 
+# # L rewind
+
+B
+0 1 R B
+1 2 R A 
+2 2 R B 
+# 2 L rewind
+
+rewind
+0 0 L rewind
+1 1 L rewind
+2 2 L rewind
+# # R A 
+

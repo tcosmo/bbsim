@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBsim</title>
+    <style>
+        html {
+            font-family: Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        }
+
+        body {
+            background-color: #202020;
+            color: #d8d8d8;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        select:focus {
+            outline: none;
+        }
+
+        #error {
+            background-color: whitesmoke;
+            color: red;
+            font-family: monospace;
+            padding: 1rem;
+            margin: 0.6rem;
+            border: 2px black solid;
+        }
+
+        #error-container {
+            display: none;
+            background-color: whitesmoke;
+        }
+
+        .below-state {
+            margin-bottom: 0.4rem;
+        }
+    </style>
+</head>
+
+<body style="display: flex; width: 100%; justify-content: center;">
+    <div style="width: 900px;">
+
+        <h1>Turing Machine simulator</h1>
+
+        <div id='error-container'>
+            <div id='error'>
+
+            </div>
+        </div>
+        <h2>Setup</h2>
+        <div style="margin-left: 1.5rem;">
+            <div style="margin-bottom: 2rem">
+                <h3>Machine</h3>
+                <div style="margin-left: 1.5rem;">
+                    <div style="margin-bottom: 0.7rem;">
+                        <select id="select-preset"></select> or <button id="btn-up" style="font-size: large;">Upload
+                            machine</button>
+                    </div>
+                    <div><button id="btn-dl" style="font-size: large;">Download machine</button></div>
+                </div>
+            </div>
+            <div>
+                <h3>Initial configuration</h3>
+                <div style="margin-left: 1.5rem; display: flex;">
+                    <div style="margin-right: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem; margin-top: 0;">Initial tape content</h4>
+                        <input type="text" id="initial-tape" style="width:400px; margin-bottom: 0;"
+                            placeholder="Example: ##>11##" value="" />
+                        <p style="margin-top: 0.4rem; font-size: small; ">(put a > in front of initial tape position or
+                            leave
+                            empty if blank
+                            input)
+                        </p>
+                    </div>
+                    <div style="margin-bottom: 0.7rem;">
+                        <div style="margin-bottom: 0.7rem;">
+                            <h4 style="margin-bottom: 0.5rem; margin-top: 0;">Initial state</h4><select
+                                id="initial-state">
+                                <option>mul2G dlsdlskd</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <button style="font-size: larger; margin-top:1rem; margin-bottom: 0.3rem;">Load simulation</button>
+
+        <div style="margin-bottom: 4rem;">
+            <h2>Simulation</h2>
+            <div style="margin-left: 1.5rem;">
+                <div>
+                    <button id="btn-next" style="font-size: large;">(N)ext</button>
+                    <button id="btn-restart" style="font-size: large;">(R)estart</button>
+                </div>
+
+                <h3 style="margin-top: 1rem;">Tape <span style="font-size:small;">(blank symbol: #)</span></h3>
+                <div id="canvasdiv" style="width: 90%; height: 60px; overflow: hidden; background-color: #d8d8d8;">
+                    <canvas id="canvas" width="10000px" height="60px"></canvas>
+                </div>
+                <p style="margin-top: 0.4rem; font-size: small;">Click and drag tape with mouse</p>
+
+                <h3 style="margin-top: 0.9rem;">Step: <span id="step"></span></h3>
+
+                <h3 style="margin-top: 0.9rem; margin-bottom: 0.8rem;">State</span></h3>
+                <div style="margin-left: 3rem;">
+                    <div id="states"
+                        style="display: flex; flex-direction: column; align-items: left; font-size: larger; ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="misc.js"></script>
+    <script src="tape_scroll.js"></script>
+    <script src="preset_machines.js"></script>
+    <script src="tm.js"></script>
+    <script src="simulator.js"></script>
+
+
+
+</body>
+
+</html>

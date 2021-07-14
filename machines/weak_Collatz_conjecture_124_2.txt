@@ -1,0 +1,504 @@
+; This machine was found before the 44, 4 machine
+; I believe that translating the 44, 4 machine to 2 symbols
+; would yield a better machine than this one.
+
+; Write magic word 10 01 1>1 11 to start things up
+writeA:
+    1, R, writeB
+    -
+writeB:
+    0, R, writeC
+    -
+writeC:
+    0, R, writeD
+    -
+writeD:
+    1, R, writeE
+    -
+writeE:
+    1, R, writeF
+    -
+writeF:
+    1, R, writeG
+    -
+writeG:
+    1, R, writeH
+    -
+writeH:
+    1, L, writeI
+    -
+writeI:
+    -
+    1, L, cz_start_bouncing 
+
+; cz stands for counter zone
+cz_start_bouncing:
+    0, L, bounce_check_second_bit_and_modify
+    1, L, bounce_check_second_bit_and_modify
+
+bounce_check_second_bit_and_modify:
+    1, L, bounce_hold_0_read_first_bit
+    0, L, bounce_hold_1_read_first_bit
+
+; Holding a 0
+    bounce_hold_0_check_second_bit_0:
+        0, L, bounce_hold_0_read_first_bit
+; also copies a zero
+        0, L, expand 
+
+    bounce_hold_0_check_second_bit_1:
+        0, L, bounce_hold_0_read_first_bit
+        1, L, bounce_hold_0_read_first_bit
+
+    bounce_hold_0_read_first_bit:
+        0, L, bounce_hold_0_check_second_bit_0
+        1, L, bounce_hold_0_check_second_bit_1
+
+; Holding a 1
+    bounce_hold_1_read_first_bit:
+        0, L, bounce_hold_1_check_second_bit_0
+        1, L, bounce_hold_1_check_second_bit_1
+
+    bounce_hold_1_rewrite_bit_1:
+        1, L, bounce_hold_1_rewrite_bit_1_ignore
+        -
+    
+    bounce_hold_1_rewrite_bit_1_ignore:
+        0, L, expand
+        1, L, expand
+
+    bounce_hold_1_check_second_bit_0:
+        0, L, bounce_hold_1_read_first_bit
+        1, R, bounce_hold_1_rewrite_bit_1
+
+    bounce_hold_1_check_second_bit_1:
+        0, L, bounce_hold_1_read_first_bit
+        1, L, bounce_hold_1_read_first_bit    
+
+expand:
+    0, L, expand_bis
+    0, L, expand_bis
+
+expand_bis:
+    1, R, rewind_ignore
+    1, R, rewind_ignore
+
+rewind_ignore:
+    0, R, rewind
+    1, R, rewind
+
+rewind_check_bit_0:
+    0, R, rewind
+    1, R, bounce_back
+
+rewind_check_bit_1:
+    0, R, bounce_back_Collatz
+    1, R, rewind
+
+rewind:
+    0, R, rewind_check_bit_0
+    1, R, rewind_check_bit_1
+
+bounce_back_check_second_bit_0:
+    0, R, bounce_back
+    1, L, bounce_back_check_copy_ignore
+
+bounce_back_check_second_bit_1:
+    0, L, bounce_back_check_copy_ignore
+    1, R, bounce_back
+
+bounce_back:
+    0, R, bounce_back_check_second_bit_0
+    1, R, bounce_back_check_second_bit_1
+
+; could be also used to write back the bit
+bounce_back_check_copy_ignore:
+    0, L, bounce_back_check_copy
+    1, L, bounce_back_check_copy
+
+bounce_back_check_copy:
+    0, L, bounce_back_check_copy_bit_0
+    1, L, bounce_back_check_copy_bit_1
+
+bounce_back_check_copy_bit_0:
+    0, R, cz_start_bouncing
+    -
+
+bounce_back_check_copy_bit_1:
+    1, R, bounce_back_Collatz_ignore
+    1, R, cz_start_bouncing
+
+bounce_back_Collatz_ignore:
+    -
+    0, R, bounce_back_Collatz
+
+bounce_back_Collatz:
+    0, R, bounce_back_Collatz_check_second_bit_0
+    1, R, bounce_back_Collatz_check_second_bit_1
+
+bounce_back_Collatz_check_second_bit_0:
+    0, R, bounce_back_Collatz
+    0, R, check_if_one_more_iteration
+
+bounce_back_Collatz_check_second_bit_1:
+    1, R, check_if_one_more_iteration
+    1, R, bounce_back_Collatz
+
+check_if_one_more_iteration:
+    0, L, wait_for_Collatz
+    1, R, check_if_one_more_iteration_bis
+
+check_if_one_more_iteration_bis:
+    0, L, wait_for_Collatz_ignore
+    1, L, start_comparing_first_step
+
+wait_for_Collatz_ignore:
+    0, L, wait_for_Collatz
+    1, L, wait_for_Collatz
+
+wait_for_Collatz:
+    0, L, wait_for_Collatz_check_second_bit_0
+    1, L, wait_for_Collatz_ignore
+
+wait_for_Collatz_check_second_bit_0:
+    0, L, wait_for_Collatz
+    1, L, Collatz_start_ignore_trailing_zeros
+
+Collatz_start_ignore_trailing_zeros:
+    0, L, Collatz_start_ignore_trailing_zeros
+    0, L, Collatz_state_0_carry_1_read_1
+
+Collatz_state_0_carry_0:
+    0, L, Collatz_state_0_carry_0_read_0
+    1, L, Collatz_state_0_carry_0_read_1
+
+Collatz_state_0_carry_0_read_0:
+    0, L, Collatz_state_0_carry_0
+    1, R, rewind_ignore
+
+Collatz_state_0_carry_0_read_1:
+    -
+    1, L, Collatz_state_1_carry_0
+
+Collatz_state_0_carry_1:
+    1, L, Collatz_state_0_carry_1_read_0
+    0, L, Collatz_state_0_carry_1_read_1
+
+Collatz_state_0_carry_1_read_0:
+    1, L, Collatz_state_0_carry_0
+    1, L, expand
+
+Collatz_state_0_carry_1_read_1:
+; we use this first rw-instruction to write the ending pattern of 1 with a carry
+    1, L, expand
+    0, L, Collatz_state_1_carry_1
+
+Collatz_state_1_carry_0:
+    1, L, Collatz_state_1_carry_0_read_0
+    0, L, Collatz_state_1_carry_0_read_1
+
+Collatz_state_1_carry_0_read_0:
+    1, L, Collatz_state_0_carry_0
+    1, L, expand
+
+Collatz_state_1_carry_0_read_1:
+; we use this first rw-instruction to write the ending pattern of 1 with a carry
+    1, L, Collatz_state_0_carry_1_read_1
+    0, L, Collatz_state_1_carry_1
+
+Collatz_state_1_carry_1:
+    0, L, Collatz_state_1_carry_1_read_0
+    1, L, Collatz_state_1_carry_1_read_1
+
+Collatz_state_1_carry_1_read_0:
+    0, L, Collatz_state_0_carry_1
+    0, L, Collatz_state_1_carry_0_read_1
+
+Collatz_state_1_carry_1_read_1:
+    -
+    1, L, Collatz_state_1_carry_1
+
+start_comparing_first_step:
+    -
+    1, L, start_comparing
+
+start_comparing:
+    0, L, start_comparing_check_bit_0
+    1, L, start_comparing_check_bit_1
+
+start_comparing_check_bit_0:
+    1, L, start_comparing
+    1, L, start_comparing_first_mark
+
+start_comparing_check_bit_1:
+    -
+    0, L, start_comparing
+
+start_comparing_first_mark:
+    0, L, start_comparing_first_mark_check_bit_0
+    1, L, start_comparing_first_mark_check_bit_1
+
+start_comparing_first_mark_check_bit_0:
+    0, L, start_comparing_first_mark
+    0, R, dexpand
+
+start_comparing_first_mark_check_bit_1:
+    -
+    1, L, start_comparing_first_mark
+
+dexpand:
+    0, R, dexpand_bis
+    -
+
+dexpand_bis:
+    1, R, dexpand_bis_read_0
+    1, R, dexpand_bis_read_1
+
+dexpand_bis_read_0:
+    0, R, go_compare_0
+    -
+
+dexpand_bis_read_1:
+    -
+    0, R, go_compare_1
+
+go_compare_0_ignore:
+    0, R, go_compare_0
+    -
+
+go_compare_1_ignore:
+    0, R, go_compare_1
+    -
+
+go_compare_0:
+    0, R, go_compare_0_ignore
+    1, R, go_compare_0_check_bit_1
+
+go_compare_1:
+    0, R, go_compare_1_ignore
+    1, R, go_compare_1_check_bit_1
+
+go_compare_0_check_bit_1:
+    0, R, go_compare_0_first_mark
+    1, R, go_compare_0
+
+go_compare_1_check_bit_1:
+    0, R, go_compare_1_first_mark
+    1, R, go_compare_1
+
+go_compare_0_first_mark_ignore:
+    0, R, go_compare_0_first_mark
+    0, R, go_compare_0_first_mark
+
+go_compare_1_first_mark_ignore:
+    0, R, go_compare_1_first_mark
+    0, R, go_compare_1_first_mark
+
+go_compare_0_first_mark:
+    0, R, go_compare_0_first_mark_ignore
+    1, R, go_compare_0_second_mark_read_1
+
+go_compare_0_second_mark:
+    0, R, go_compare_0_second_mark_read_0
+    1, R, go_compare_0_second_mark_read_1
+
+go_compare_0_second_mark_read_0:
+    0, R, go_compare_0_second_mark
+    0, R, check_if_cycle_found 
+
+go_compare_0_second_mark_read_1:
+    1, R, not_cycle_wrap_up
+    1, R, go_compare_0_second_mark
+
+go_compare_1_first_mark:
+    0, R, go_compare_1_first_mark_ignore
+    1, R, go_compare_1_second_mark_read_1
+
+go_compare_1_second_mark:
+    0, R, go_compare_1_second_mark_read_0
+    1, R, go_compare_1_second_mark_read_1
+
+go_compare_1_second_mark_read_0:
+    0, R, go_compare_1_second_mark
+    0, R, not_cycle_wrap_up
+
+go_compare_1_second_mark_read_1:
+    1, R, check_if_cycle_found
+    1, L, go_compare_1_second_mark
+
+skip_first_mark_first_step:
+    0, L, skip_first_mark
+    1, L, skip_first_mark
+
+skip_first_mark_ignore:
+    -
+    1, L, skip_first_mark
+
+skip_first_mark:
+    0, L, skip_first_mark_check_0
+    1, L, skip_first_mark_ignore
+
+skip_first_mark_check_0:
+    0, L, skip_first_mark
+    1, L, start_comparing_first_mark
+
+check_if_cycle_found:
+    0, L, skip_first_mark
+    1, R, check_if_cycle_found_bis
+
+check_if_cycle_found_bis:
+    0, L, skip_first_mark_first_step
+    0, L, check_non_trivial_cycle_ignore
+
+check_non_trivial_cycle_ignore:
+    0, L, check_non_trivial_cycle
+    1, L, check_non_trivial_cycle
+
+check_non_trivial_cycle:
+    0, L, check_non_trivial_cycle
+    1, L, check_non_trivial_cycle_one
+
+check_non_trivial_cycle_one:
+    -
+    1, L, check_non_trivial_cycle_one_continue_checking
+
+check_non_trivial_cycle_one_continue_checking_read_0:
+    0, L, check_non_trivial_cycle_one_continue_checking
+    1, R, skip_to_do_plus_one_ignore
+
+skip_to_do_plus_one_ignore:
+    0, R, skip_to_do_plus_one
+    -
+
+skip_to_do_plus_one_read_1:
+    0, L, plus_one_ignore
+    1, R, skip_to_do_plus_one
+
+skip_to_do_plus_one:
+    0, R, skip_to_do_plus_one_ignore
+    1, R, skip_to_do_plus_one_read_1
+
+
+
+check_non_trivial_cycle_one_continue_checking:
+    0, L, check_non_trivial_cycle_one_continue_checking_read_0
+    1, L, halt
+
+
+
+not_cycle_wrap_up_read_0:
+    -
+    0, R, not_cycle_wrap_up
+
+not_cycle_wrap_up_read_1:
+    1, R, not_cycle_wrap_up
+    0, L, plus_one_ignore
+
+not_cycle_wrap_up:
+    0, R, not_cycle_wrap_up_read_0
+    1, R, not_cycle_wrap_up_read_1
+
+plus_one_ignore:
+    -
+    1, L, plus_one
+
+plus_one_read_0:
+    1, L, plus_zero
+    1, R, expand_counter_space_ignore
+
+plus_one_read_1:
+    -
+    0, L, plus_one
+
+plus_one:
+    1, L, plus_one_read_0
+    0, L, plus_one_read_1
+
+plus_zero_read_0:
+    0, L, plus_zero
+    0, R, reset_copy_marker 
+
+reset_copy_marker:
+    1, L, reset_copy_marker_ignore
+    -
+
+reset_copy_marker_ignore:
+    0, L, reset_computation_zone
+    0, L, reset_computation_zone
+
+reset_computation_zone_read_0:
+    0, L, reset_computation_zone
+    0, R, finish_reset_comp_zone
+
+reset_computation_zone_read_1:
+    -
+    0, L, reset_computation_zone
+
+reset_computation_zone:
+    0, L, reset_computation_zone_read_0
+    0, L, reset_computation_zone_read_1
+
+finish_reset_comp_zone:
+    0, R, finish_reset_comp_zone
+    1, L, finish_reset_comp_zone_skip
+
+finish_reset_comp_zone_skip:
+    0, L, finish_reset_comp_zone_skip_bis
+    -
+
+finish_reset_comp_zone_skip_bis:
+    0, L, reset_computation_zone_bis
+    -
+
+reset_computation_zone_bis:
+    1, R, lets_go_on_another_round
+    1, R, lets_go_on_another_round
+
+plus_zero:
+    0, L, plus_zero_read_0
+    1, L, plus_zero
+
+lets_go_on_another_round:
+    0, R, lets_go_on_another_round_goto_end
+    -
+
+skip_that_one_before_we_start:
+    -
+    1, L, cz_start_bouncing
+
+lets_go_on_another_round_goto_end_check_bit_1:
+    1, L, skip_that_one_before_we_start
+    1, R, lets_go_on_another_round_goto_end
+
+lets_go_on_another_round_goto_end_ignore:
+    0, R, lets_go_on_another_round_goto_end
+    1, R, lets_go_on_another_round_goto_end
+
+lets_go_on_another_round_goto_end:
+    0, R, lets_go_on_another_round_goto_end_ignore
+    1, R, lets_go_on_another_round_goto_end_check_bit_1
+
+expand_counter_space_ignore:
+    0, R, expand_counter_space
+    0, R, expand_counter_space
+
+expand_counter_space:
+    0, R, expand_counter_space_ignore
+    1, R, expand_counter_space_check_bit_1
+
+expand_counter_space_check_bit_1:
+    1, R, expand_counter_space_yesyesyes
+    1, R, expand_counter_space
+
+expand_counter_space_yesyesyes:
+    1, R, expand_counter_space_yesyesyesYES
+    -
+
+expand_counter_space_yesyesyesYES:
+    0, L, ignore_that_last_one
+    -
+
+ignore_that_last_one:
+    -
+    1, L, plus_one
+

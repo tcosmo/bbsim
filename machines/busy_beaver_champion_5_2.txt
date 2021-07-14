@@ -1,0 +1,27 @@
+; Current 5,2 busy beaver champion
+; It halts after 47,176,870 steps.
+; H. Marxen and J. Buntrock. Attacking the Busy Beaver 5. Bull. EATCS, 40:247–251, 1990.
+; More info: https://arxiv.org/abs/0906.3749v6
+
+initial_state: A
+blank_symbol: 0
+
+A
+0 1 R B
+1 1 L C
+
+B
+0 1 R C 
+1 1 R B 
+
+C
+0 1 R D 
+1 0 L E 
+
+D 
+0 1 L A 
+1 1 L D 
+
+E 
+0 HALT 
+1 0 L A

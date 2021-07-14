@@ -1,0 +1,42 @@
+initial_state: mul2_G
+redundancy: 1
+
+; states mul2_F and mul2_G run the FST that computes 2x
+; in base 3. 
+; I noticed that starting the machine in state B from
+; blank tape was bootstrapping the algorithm correctly:
+; it will write a '1'
+
+mul2_F
+0 0 R mul2_F
+1 2 R mul2_F
+2 1 R mul2_G
+# # L find_2
+
+mul2_G
+0 1 R mul2_F
+1 0 R mul2_G
+2 2 R mul2_G
+# 1 R mul2_F
+
+find_2
+0 0 L find_2
+1 1 L find_2
+2 2 L rewind      ; we found a 2
+# # L check_halt  ; no 2 has been found
+
+rewind
+0 0 L rewind
+1 1 L rewind 
+2 2 L rewind
+# # R mul2_F      ; we do the next power of 2
+
+check_halt
+; There are 3 known counter examples:
+; base 3:  1, 11, 100111
+; base 10: 1, 4, 256
+0 1 R rewind
+1 2 R rewind
+2 HALT            ; We have found a new counter example
+# 0 R rewind 
+
