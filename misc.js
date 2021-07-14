@@ -13,5 +13,5 @@ function escapeHtml(unsafe) {
 
 function error(errMsg) {
     document.getElementById('error-container').style.display = "inline-block";
-    document.getElementById('error').innerHTML += errMsg;
+    document.getElementById('error').innerHTML = errMsg;
 }

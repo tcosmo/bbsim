@@ -21,6 +21,34 @@ const tapeHeadAdjustY = 3;
 var currentMachine = defaultMachine;
 var currentMachineCode = atob(presetMachines[currentMachine]);
 
+/* Renders elements that do not change at each simulation steps */
+TM.prototype.initView = function () {
+    /* Remove errors */
+    document.getElementById('error-container').style.display = "none";
+
+
+    /* Change blank symbol occurrences */
+    document.getElementById('initial-tape').placeholder = 'Example: ' + tm.tapeBlankSymbol + tm.tapeBlankSymbol + '>' + '1' + '1' + tm.tapeBlankSymbol + tm.tapeBlankSymbol
+    document.getElementById('blank-symbol').innerHTML = tm.tapeBlankSymbol
+
+    var selStates = document.getElementById('select-initial-state');
+    selStates.innerHTML = ''
+    for (machineState in this.transitionTable) {
+        var optState = document.createElement('option');
+        if (machineState !== this.trueInitialState)
+            optState.innerHTML = machineState;
+        else
+            optState.innerHTML = machineState + ' (default)';
+
+        optState.selected = machineState == this.initialState;
+
+
+
+        selStates.appendChild(optState);
+    }
+}
+
+/* Renders the configuration of the current simulation step */
 TM.prototype.drawConfiguration = function () {
     const symbolWidth = context.measureText(this.tapeBlankSymbol).width;
 
@@ -62,12 +90,16 @@ TM.prototype.drawConfiguration = function () {
 
 /* Main */
 tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
-tm.drawConfiguration()
 
+if (tm !== null) {
+    tm.initView()
+    tm.drawConfiguration()
+}
 /* Events */
 
 const btnNext = document.getElementById("btn-next");
 const btnRestart = document.getElementById("btn-restart");
+const btnLoad = document.getElementById("btn-load");
 
 /* Next */
 document.addEventListener('keydown', (event) => {
@@ -76,8 +108,10 @@ document.addEventListener('keydown', (event) => {
     }
 }, false);
 btnNext.addEventListener("click", function () {
-    tm.next()
-    tm.drawConfiguration()
+    if (tm !== null) {
+        tm.next()
+        tm.drawConfiguration()
+    }
 });
 
 /* Restart */
@@ -87,16 +121,37 @@ document.addEventListener('keydown', (event) => {
     }
 }, false);
 btnRestart.addEventListener("click", function () {
-    tm.restart()
-    tm.drawConfiguration()
+    if (tm !== null) {
+        tm.restart()
+        tm.initView()
+        tm.drawConfiguration()
+    }
 });
 
 /* Select machine */
 document.getElementById('select-preset').addEventListener('change', (event) => {
-
     var currentMachine = document.getElementById('select-preset').value;
     var currentMachineCode = atob(presetMachines[currentMachine]);
     tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
-    tm.drawConfiguration()
+    if (tm !== null) {
+        tm.initView();
+        tm.drawConfiguration()
+    }
+
 }, false);
 
+/* Load simulation */
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'KeyL') {
+        btnLoad.click();
+    }
+}, false);
+btnLoad.addEventListener("click", function () {
+    tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
+    if (tm !== null) {
+        tm.initialState = document.getElementById('select-initial-state').value.replace(' (default)', '')
+        tm.currentState = tm.initialState
+        tm.initView()
+        tm.drawConfiguration()
+    }
+});

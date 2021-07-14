@@ -20,6 +20,10 @@
             outline: none;
         }
 
+        input {
+            user-select: all;
+        }
+
         input:focus {
             outline: none;
         }
@@ -86,8 +90,8 @@
                     <div style="margin-bottom: 0.7rem;">
                         <div style="margin-bottom: 0.7rem;">
                             <h4 style="margin-bottom: 0.5rem; margin-top: 0;">Initial state</h4><select
-                                id="initial-state">
-                                <option>mul2G dlsdlskd</option>
+                                id="select-initial-state">
+
                             </select>
                         </div>
                     </div>
@@ -97,7 +101,8 @@
         </div>
 
 
-        <button style="font-size: larger; margin-top:1rem; margin-bottom: 0.3rem;">Load simulation</button>
+        <button id="btn-load" style="font-size: larger; margin-top:1rem; margin-bottom: 0.3rem;">(L)oad
+            simulation</button>
 
         <div style="margin-bottom: 4rem;">
             <h2>Simulation</h2>
@@ -107,7 +112,8 @@
                     <button id="btn-restart" style="font-size: large;">(R)estart</button>
                 </div>
 
-                <h3 style="margin-top: 1rem;">Tape <span style="font-size:small;">(blank symbol: #)</span></h3>
+                <h3 style="margin-top: 1rem;">Tape <span style="font-size:small;">(blank symbol: <span
+                            id="blank-symbol"></span>)</h3>
                 <div id="canvasdiv" style="width: 90%; height: 60px; overflow: hidden; background-color: #d8d8d8;">
                     <canvas id="canvas" width="10000px" height="60px"></canvas>
                 </div>

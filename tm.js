@@ -3,6 +3,7 @@ class TM {
     constructor(transitionTable = {}, initialState = null, tapeBlankSymbol = '#', initialTape = {}, tapeHeadPos = 0, redundancy = 1) {
         this.transitionTable = transitionTable;
         this.initialState = initialState;
+        this.trueInitialState = initialState;
         this.tapeBlankSymbol = tapeBlankSymbol;
         this.initialTape = initialTape;
         this.tape = initialTape;
@@ -29,7 +30,7 @@ class TM {
         }
 
         if (this.transitionTable[this.currentState][readSymbol].length === 1) {
-            error(`HALT: machine has halted in state '${this.currentState}'.`)
+            error(`HALT: machine has halted in state '${this.currentState}' at step ${this.step}.`)
             return
         }
 
@@ -90,7 +91,7 @@ function ParseTM(machineCode, initialTapeContent) {
                 toReturn.redundancy = parseInt(ltrim.split(':')[1].leftTrim())
                 if (isNaN(toReturn.redundancy) || toReturn.redundancy < 0) {
                     error(`Parsing error at line ${lineCount}: redundancy '${toReturn.redundancy}' is not a non-negative integer.`)
-                    throw ''
+                    return null
                 }
             }
 
@@ -102,7 +103,7 @@ function ParseTM(machineCode, initialTapeContent) {
 
         if (parsedWords.length !== 1 && parsedWords.length !== 2 && parsedWords.length !== 4) {
             error(`Parsing error at line ${lineCount}: '${ltrim}' is not valid in a Turing Machine specification.<br/> You must either give: <br/>&nbsp;&nbsp;&nbsp;&nbsp;` + escapeHtml("'<state_name>' or ") + '<br/>&nbsp;&nbsp;&nbsp;&nbsp;' + escapeHtml("'<read_symbol> HALT' or ") + '<br/>&nbsp;&nbsp;&nbsp;&nbsp;' + escapeHtml("'<read_symbol> <write_symbol> <direction> <go to state>' or ") + '<br/>&nbsp;&nbsp;&nbsp;&nbsp;' + escapeHtml("'-' to give an unspecified read/write TM instruction."))
-            throw ''
+            return null
         }
 
         // Parsing state name
@@ -126,12 +127,12 @@ function ParseTM(machineCode, initialTapeContent) {
         if (parsedWords.length === 4) {
             if (currentStateBeingParsed == null) {
                 error(`Parsing error at line ${lineCount}: you cannot give '${ltrim}' outside of a state. Please specify what state this instruction belongs to.`)
-                throw ''
+                return null
             }
 
             if (parsedWords[2] !== 'R' && parsedWords[2] !== 'L') {
                 error(`Parsing error at line ${lineCount}: '${parsedWords[2]}' is an invalid tape direction. Valid tape directions are: 'R' and 'L'.`)
-                throw ''
+                return null
             }
 
             if (toReturn.transitionTable[currentStateBeingParsed] === undefined) {
@@ -149,7 +150,7 @@ function ParseTM(machineCode, initialTapeContent) {
         if (parsedWords.length === 2) {
             if (parsedWords[1] !== 'HALT' && parsedWords[1] !== 'H' && parsedWords[1] !== 'Halt' && parsedWords[1] !== 'halt') {
                 error(`Parsing error at line ${lineCount}: '${parsedWords[1]}' is not a valid 'HALT' instruction. <br/>Valid 'HALT' instructions are: 'HALT', 'H', 'Halt' and 'halt'.`)
-                throw ''
+                return null
             }
 
             if (toReturn.transitionTable[currentStateBeingParsed] === undefined) {
@@ -195,6 +196,7 @@ function ParseTM(machineCode, initialTapeContent) {
 
     toReturn.tape = { ...toReturn.initialTape }
     toReturn.currentState = toReturn.initialState
+    toReturn.trueInitialState = toReturn.initialState
     console.log('Initial tape:', toReturn.initialTape)
 
 
