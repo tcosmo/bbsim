@@ -130,8 +130,9 @@ btnRestart.addEventListener("click", function () {
 
 /* Select machine */
 document.getElementById('select-preset').addEventListener('change', (event) => {
-    var currentMachine = document.getElementById('select-preset').value;
-    var currentMachineCode = atob(presetMachines[currentMachine]);
+    currentMachine = document.getElementById('select-preset').value;
+    currentMachineCode = atob(presetMachines[currentMachine]);
+    console.log(currentMachineCode)
     tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
     if (tm !== null) {
         tm.initView();
