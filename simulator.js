@@ -46,6 +46,8 @@ TM.prototype.initView = function () {
 
         selStates.appendChild(optState);
     }
+
+    document.getElementById('state-count').innerHTML = Object.keys(this.transitionTable).length
 }
 
 /* Renders the configuration of the current simulation step */
@@ -132,7 +134,6 @@ btnRestart.addEventListener("click", function () {
 document.getElementById('select-preset').addEventListener('change', (event) => {
     currentMachine = document.getElementById('select-preset').value;
     currentMachineCode = atob(presetMachines[currentMachine]);
-    console.log(currentMachineCode)
     tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
     if (tm !== null) {
         tm.initView();
