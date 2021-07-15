@@ -4,7 +4,7 @@
 
 The Turing machines we work with have a unique, bi-infinite memory tape. See below for the Turing Machine specification format that we use.
 
-This simulator was originally created to support research trying to find small Turing machines of which halting problem relates to an open conjecture in mathematics.
+This simulator was originally created to support research trying to find small Turing machines whose halting problem is equivalent to an open conjecture in mathematics.
 
 In particular, our research showed that there is a 15-state, 2-symbol Turing machine and a 5-state 4-symbol that halt if and only if the following conjecture by Erdős is false:
 
