@@ -23,7 +23,7 @@ var inputFromUpload = false
 /* Machine */
 var currentMachine = defaultMachine;
 var currentMachineB64 = presetMachines[currentMachine]
-var currentMachineCode = atob(currentMachineB64);
+var currentMachineCode = b64DecodeUnicode(currentMachineB64);
 var showMachineCode = false
 
 /* Renders elements that do not change at each simulation steps */
@@ -175,7 +175,7 @@ document.getElementById('select-preset').addEventListener('change', (event) => {
 
     currentMachine = document.getElementById('select-preset').value;
     currentMachineB64 = presetMachines[currentMachine]
-    currentMachineCode = atob(currentMachineB64);
+    currentMachineCode = b64DecodeUnicode(currentMachineB64);
     tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
     if (tm !== null) {
         tm.initView();

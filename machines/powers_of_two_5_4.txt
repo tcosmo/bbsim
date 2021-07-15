@@ -2,6 +2,8 @@
 ;
 ; "For all n > 8, there is at least one 2 in the ternary representation of 2^n"
 ;
+; P. Erdős. Some unconventional problems in number theory. Mathematics Magazine, 52(2):67–70, 1979.
+;
 ; The machine has 5 states and 4 symbols
 ; States mul2_F and mul2_G run the FST that computes 2x in base 3 (reverse-ternary). 
 ; The other states are responsible for checking the conjecture and keeping track of the 3 known special cases:
