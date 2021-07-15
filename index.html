@@ -76,10 +76,18 @@
         <div style="margin-left: 1.5rem;">
             <div style="margin-bottom: 2rem">
                 <h3>Machine</h3>
-                <div style="margin-left: 1.5rem;">
-                    <div style="margin-bottom: 0.7rem;">
-                        <select id="select-preset"></select> or <button id="btn-up" style="font-size: large;">Upload
-                            machine</button>
+                <div style="margin-left: 1.5rem; ">
+                    <div style="margin-bottom: 0.7rem; display: flex; align-items: flex-start;">
+                        <div>
+                            <select id="select-preset"></select> or&nbsp;
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <input type="file" id="btn-up" style="font-size: large;">
+                            <p style="font-size: smaller; margin-top: 0.4rem;">Turing Machine format described <a
+                                    href="https://github.com/tcosmo/bbsim" style="color:chartreuse"
+                                    target="_blank">here</a>.</p>
+                        </div>
+
                     </div>
                     <div><button id="btn-dl" style="font-size: large;"><a id="dl-link" download="" href="">Download
                                 machine</a></button></div>

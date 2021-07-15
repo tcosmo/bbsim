@@ -17,6 +17,9 @@ const tapeOriginY = 5;
 const tapeHeadAdjustX = 4;
 const tapeHeadAdjustY = 3;
 
+/* Whether the current machine was uploaded or preset */
+var inputFromUpload = false
+
 /* Machine */
 var currentMachine = defaultMachine;
 var currentMachineB64 = presetMachines[currentMachine]
@@ -113,6 +116,7 @@ if (tm !== null) {
 const btnNext = document.getElementById("btn-next");
 const btnRestart = document.getElementById("btn-restart");
 const btnLoad = document.getElementById("btn-load");
+const inputUpload = document.getElementById("btn-up");
 
 /* Next */
 document.addEventListener('keydown', (event) => {
@@ -143,6 +147,12 @@ btnRestart.addEventListener("click", function () {
 
 /* Select machine */
 document.getElementById('select-preset').addEventListener('change', (event) => {
+    inputFromUpload = false
+
+    document.getElementById('select-preset').style.opacity = 1.0
+
+    inputUpload.value = "";
+
     currentMachine = document.getElementById('select-preset').value;
     currentMachineB64 = presetMachines[currentMachine]
     currentMachineCode = atob(currentMachineB64);
@@ -169,3 +179,30 @@ btnLoad.addEventListener("click", function () {
         tm.drawConfiguration()
     }
 });
+
+/* File upload */
+inputUpload.addEventListener("change", function () {
+
+    if (inputUpload.files[0] === undefined) {
+        inputFromUpload = false
+        return
+    }
+
+    document.getElementById('select-preset').style.opacity = 0.6
+
+    inputFromUpload = true
+
+    currentMachine = inputUpload.files[0].name
+
+    var reader = new FileReader();
+    reader.readAsText(inputUpload.files[0]);
+    reader.onload = function (evt) {
+        currentMachineCode = evt.target.result;
+        currentMachineB64 = btoa(currentMachineCode)
+        tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
+        if (tm !== null) {
+            tm.initView();
+            tm.drawConfiguration()
+        }
+    }
+})
