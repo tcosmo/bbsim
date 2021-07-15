@@ -54,6 +54,13 @@ TM.prototype.initView = function () {
     document.getElementById('state-count').innerHTML = Object.keys(this.transitionTable).length
 }
 
+/* Computing tape positions when we group symbols together */
+TM.prototype.redundantPos = function (x) {
+    if (tm.redundancy === 1)
+        return x
+    return x + Math.floor(x / this.redundancy)
+}
+
 /* Renders the configuration of the current simulation step */
 TM.prototype.drawConfiguration = function () {
     const symbolWidth = context.measureText(this.tapeBlankSymbol).width;
@@ -67,12 +74,12 @@ TM.prototype.drawConfiguration = function () {
     context.clearRect(0, 0, canvas.width, canvas.height)
     for (const pos in this.tape) {
         const pos_int = parseInt(pos);
-        context.fillText(this.tape[pos], tapeOriginX + 200 + pos_int * symbolWidth, tapeOriginY);
+        context.fillText(this.tape[pos], tapeOriginX + 200 + (this.redundantPos(pos_int)) * symbolWidth, tapeOriginY);
     }
 
     /* Tape head */
     context.fillStyle = tapeHeadColor;
-    context.fillRect(tapeOriginX + 200 + this.tapeHeadPos * symbolWidth, tapeOriginY + 40 - tapeHeadAdjustY, symbolWidth - tapeHeadAdjustX, 6);
+    context.fillRect(tapeOriginX + 200 + (this.redundantPos(this.tapeHeadPos)) * symbolWidth, tapeOriginY + 40 - tapeHeadAdjustY, symbolWidth - tapeHeadAdjustX, 6);
     context.fillStyle = tapeForeground;
 
     document.getElementById('step').innerHTML = this.step
