@@ -19,13 +19,17 @@ const tapeHeadAdjustY = 3;
 
 /* Machine */
 var currentMachine = defaultMachine;
-var currentMachineCode = atob(presetMachines[currentMachine]);
+var currentMachineB64 = presetMachines[currentMachine]
+var currentMachineCode = atob(currentMachineB64);
 
 /* Renders elements that do not change at each simulation steps */
 TM.prototype.initView = function () {
     /* Remove errors */
     document.getElementById('error-container').style.display = "none";
 
+    /* Dowload link */
+    document.getElementById('dl-link').href = 'data:text/plain;base64,' + currentMachineB64
+    document.getElementById('dl-link').download = currentMachine
 
     /* Change blank symbol occurrences */
     document.getElementById('initial-tape').placeholder = 'Example: ' + tm.tapeBlankSymbol + tm.tapeBlankSymbol + '>' + '1' + '1' + tm.tapeBlankSymbol + tm.tapeBlankSymbol
@@ -133,7 +137,8 @@ btnRestart.addEventListener("click", function () {
 /* Select machine */
 document.getElementById('select-preset').addEventListener('change', (event) => {
     currentMachine = document.getElementById('select-preset').value;
-    currentMachineCode = atob(presetMachines[currentMachine]);
+    currentMachineB64 = presetMachines[currentMachine]
+    currentMachineCode = atob(currentMachineB64);
     tm = ParseTM(currentMachineCode, document.getElementById('initial-tape').value)
     if (tm !== null) {
         tm.initView();

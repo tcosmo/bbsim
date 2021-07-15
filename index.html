@@ -49,6 +49,16 @@
         .below-state {
             margin-bottom: 0.4rem;
         }
+
+        a {
+            text-decoration: none;
+            color: black
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: black
+        }
     </style>
 </head>
 
@@ -71,7 +81,8 @@
                         <select id="select-preset"></select> or <button id="btn-up" style="font-size: large;">Upload
                             machine</button>
                     </div>
-                    <div><button id="btn-dl" style="font-size: large;">Download machine</button></div>
+                    <div><button id="btn-dl" style="font-size: large;"><a id="dl-link" download="" href="">Download
+                                machine</a></button></div>
                 </div>
             </div>
             <div>
