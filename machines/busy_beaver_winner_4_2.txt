@@ -1,0 +1,23 @@
+; 4,2 busy beaver winner
+; It halts after 107 steps.
+; 1RB 1LB 1LA 0LC 1RH 1LD 1RD 0RA
+; More info: https://webusers.imj-prg.fr/~pascal.michel/ha.html#tm42
+
+initial_state: A
+blank_symbol: 0
+
+A 
+0 1 R B 
+1 1 L B 
+
+B 
+0 1 L A 
+1 0 L C 
+
+C 
+0 Halt 
+1 1 L D 
+
+D 
+0 1 R D 
+1 0 R A

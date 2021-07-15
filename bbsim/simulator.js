@@ -24,11 +24,17 @@ var inputFromUpload = false
 var currentMachine = defaultMachine;
 var currentMachineB64 = presetMachines[currentMachine]
 var currentMachineCode = atob(currentMachineB64);
+var showMachineCode = false
 
 /* Renders elements that do not change at each simulation steps */
 TM.prototype.initView = function () {
     /* Remove errors */
     document.getElementById('error-container').style.display = "none";
+
+    /* Fill machine code */
+    document.getElementById('container-machine-code').style.display = (showMachineCode) ? "inline-block" : "none"
+
+    document.getElementById('machine-code').innerHTML = currentMachineCode.replaceAll('\n', '<br/>')
 
     /* Dowload link */
     document.getElementById('dl-link').href = 'data:text/plain;base64,' + currentMachineB64
@@ -116,7 +122,14 @@ if (tm !== null) {
 const btnNext = document.getElementById("btn-next");
 const btnRestart = document.getElementById("btn-restart");
 const btnLoad = document.getElementById("btn-load");
+const btnShowCode = document.getElementById("btn-show");
 const inputUpload = document.getElementById("btn-up");
+
+/* Show code */
+btnShowCode.addEventListener("click", function () {
+    showMachineCode = !showMachineCode;
+    tm.initView()
+});
 
 /* Next */
 document.addEventListener('keydown', (event) => {

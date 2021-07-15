@@ -1,5 +1,6 @@
 ; Current 5,2 busy beaver champion
 ; It halts after 47,176,870 steps.
+; It is conjectured to be the 5,2 winner (i.e. no other 5,2 machine do better, see https://www.scottaaronson.com/papers/bb.pdf)
 ; H. Marxen and J. Buntrock. Attacking the Busy Beaver 5. Bull. EATCS, 40:247–251, 1990.
 ; More info: https://arxiv.org/abs/0906.3749v6
 

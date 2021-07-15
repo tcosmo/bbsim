@@ -33,15 +33,22 @@
         }
 
         #error {
-            background-color: whitesmoke;
             color: red;
+        }
+
+        #machine-code {
+            color: black;
+        }
+
+        .black-border {
+            background-color: whitesmoke;
             font-family: monospace;
             padding: 1rem;
             margin: 0.6rem;
             border: 2px black solid;
         }
 
-        #error-container {
+        .blank-container {
             display: none;
             background-color: whitesmoke;
         }
@@ -67,8 +74,8 @@
 
         <h1>Turing Machine simulator</h1>
 
-        <div id='error-container'>
-            <div id='error'>
+        <div class="blank-container" id='error-container'>
+            <div class="black-border" id='error'>
 
             </div>
         </div>
@@ -90,7 +97,15 @@
 
                     </div>
                     <div><button id="btn-dl" style="font-size: large;"><a id="dl-link" download="" href="">Download
-                                machine</a></button></div>
+                                machine</a></button> or <button id="btn-show" style="font-size: large;">Toggle
+                            code</button></div>
+
+                    <div class="blank-container" id="container-machine-code" style="margin-top: 1rem;">
+                        <div class="black-border" id="machine-code">
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
             <div>
@@ -116,6 +131,8 @@
                     </div>
                 </div>
             </div>
+
+
 
         </div>
 

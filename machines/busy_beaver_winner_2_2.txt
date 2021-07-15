@@ -1,0 +1,15 @@
+; Current 2,2 busy beaver champion
+; It halts after 6 steps.
+; 1RB 1LB 1LA 1RH
+; More info: https://webusers.imj-prg.fr/~pascal.michel/ha.html#tm22
+
+initial_state: A
+blank_symbol: 0
+
+A 
+0 1 R B 
+1 1 L B
+
+B 
+0 1 L A 
+1 HALT 
