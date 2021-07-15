@@ -28,12 +28,19 @@ var showMachineCode = false
 
 /* Renders elements that do not change at each simulation steps */
 TM.prototype.initView = function () {
+
+    console.log("Meta", this.meta)
+    /* Fill metadata */
+    if (this.meta != "") {
+        document.getElementById('metadata-container').style.display = "inline-block"
+        document.getElementById('metadata').innerHTML = this.meta
+    }
+
     /* Remove errors */
     document.getElementById('error-container').style.display = "none";
 
     /* Fill machine code */
     document.getElementById('container-machine-code').style.display = (showMachineCode) ? "inline-block" : "none"
-
     document.getElementById('machine-code').innerHTML = currentMachineCode.replaceAll('\n', '<br/>')
 
     /* Dowload link */
@@ -173,6 +180,8 @@ document.getElementById('select-preset').addEventListener('change', (event) => {
     if (tm !== null) {
         tm.initView();
         tm.drawConfiguration()
+    } else {
+        document.getElementById('metadata-container').style.display = "none"
     }
 
 }, false);
@@ -190,6 +199,8 @@ btnLoad.addEventListener("click", function () {
         tm.currentState = tm.initialState
         tm.initView()
         tm.drawConfiguration()
+    } else {
+        document.getElementById('metadata-container').style.display = "none"
     }
 });
 
@@ -216,6 +227,8 @@ inputUpload.addEventListener("change", function () {
         if (tm !== null) {
             tm.initView();
             tm.drawConfiguration()
+        } else {
+            document.getElementById('metadata-container').style.display = "none"
         }
     }
 })

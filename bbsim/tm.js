@@ -11,6 +11,7 @@ class TM {
         this.redundancy = redundancy;
         this.currentState = initialState;
         this.step = 0;
+        this.meta = "";
     }
 
     next() {
@@ -66,7 +67,16 @@ function ParseTM(machineCode, initialTapeContent) {
 
     for (const line of machineCode.split("\n")) {
         lineCount += 1;
-        const ltrim = line.leftTrim().split(";")[0]; // Getting rid of comments
+
+        var commentSplit = line.leftTrim().split(";")
+
+        const ltrim = commentSplit[0]; // Getting rid of comments
+
+        // Get metadata
+        if (currentStateBeingParsed === null && commentSplit.length > 1) {
+            var toAdd = commentSplit.slice(1).join().leftTrim()
+            toReturn.meta += toAdd + '<br/>'
+        }
 
         // Line is empty
         if (ltrim.length === 0)

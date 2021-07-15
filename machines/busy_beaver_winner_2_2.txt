@@ -1,4 +1,4 @@
-; Current 2,2 busy beaver champion
+; 2,2 busy beaver winner
 ; It halts after 6 steps.
 ; 1RB 1LB 1LA 1RH
 ; More info: https://webusers.imj-prg.fr/~pascal.michel/ha.html#tm22

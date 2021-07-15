@@ -1,6 +1,13 @@
 ; This machine halts if and only if Erdos' conjecture on powers of two is false:
+;
 ; "For all n > 8, there is at least one 2 in the ternary representation of 2^n"
+;
 ; The machine has 15 states and 2 symbols
+; The machine simulates 'powers_of_two_5_4.txt' with the following encoding table:
+;
+; 0: ba, 1: ab, 2: aa, #: bb
+;
+; This machine was proven correct: 
 
 initial_state: mul2_G_sim
 redundancy: 2

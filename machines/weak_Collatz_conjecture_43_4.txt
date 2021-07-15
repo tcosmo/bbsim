@@ -1,7 +1,8 @@
-; This machine halts if and only if the weak Collatz conjecture is false
+; This machine halts if and only if the weak Collatz conjecture is false.
 ; The conjecture states that the only cycles on the natural numbers are 0,0, and 1,2,1,2..
-; This machine has 43 states and 4 symbols
-
+; This machine has 43 states and 4 symbols.
+;
+; This machine was not proven correct yet.
 
 initial_state: plus_one_not_done_reset_mark
 

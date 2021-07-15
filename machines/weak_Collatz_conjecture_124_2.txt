@@ -1,17 +1,19 @@
 ; This machine halts if and only if the weak Collatz conjecture is false
 ; The conjecture states that the only cycles on the natural numbers are 0,0, and 1,2,1,2..
 ; This machine has 124 states and 2 symbols
-
-; This machine was found before the 44 4 machine
-; I believe that translating the 44 4 machine to 2 symbols
+;
+; This machine was found before the 44 4 machine.
+;
+; We believe that translating the 44 4 machine to 2 symbols
 ; would yield a better machine than this one.
+;
+; This machine was not proven correct yet.
 
-; Write magic word 10 01 1>1 11 to start things up
 
 blank_symbol: 0
 redundancy: 2
 
-writeA
+writeA ; Write magic word 10 01 1>1 11 to start things up
     0 1 R writeB
     -
 writeB

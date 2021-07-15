@@ -1,6 +1,5 @@
-; This machine computes Collatz iterations in base 3 (reverse ternary) on any ternary input
-; the machine does not halt
-; I found it by playing around but in fact is exactly the same as found by P Michel
+; This machine computes infinite amount of Collatz iterations in base 3 (reverse ternary) on any ternary input.
+; The machine was found by P Michel
 ; https://arxiv.org/pdf/1409.7322.pdf
 
 initial_state: A
