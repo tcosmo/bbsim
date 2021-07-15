@@ -1,0 +1,12 @@
+; testing simulator's runtime: we go to an inexisting state
+
+blank_symbol: 0
+
+A
+0 1 R B
+1 1 L C
+
+B
+0 1 R new_state 
+1 1 R B 
+

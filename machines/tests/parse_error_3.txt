@@ -1,0 +1,21 @@
+; testing simulator's parser: we give an invalid direction
+
+A
+0 1 R B
+1 1 L C
+
+B
+0 1 Right C 
+1 1 R B 
+
+C
+0 1 R D 
+1 0 L E 
+
+D 
+0 1 L A 
+1 1 L D 
+
+E 
+0 HALT 
+1 0 L A

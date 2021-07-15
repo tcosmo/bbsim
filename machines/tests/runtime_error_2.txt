@@ -1,0 +1,12 @@
+; testing simulator's runtime: unspecified instruction
+
+blank_symbol: 0
+
+A
+0 1 R B
+1 1 L C
+
+B
+-
+1 1 R B 
+

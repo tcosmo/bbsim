@@ -116,7 +116,7 @@ function ParseTM(machineCode, initialTapeContent) {
 
             // If no initial state provided take first one
             if (currentStateBeingParsed === null && toReturn.initialState === null) {
-                toReturn.initialState = currentStateBeingParsed;
+                toReturn.initialState = parsedWords[0];
             }
 
             currentStateBeingParsed = parsedWords[0]
