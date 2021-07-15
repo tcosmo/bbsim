@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join
+import time
 
 import base64
 
@@ -34,6 +35,6 @@ Object.keys(presetMachines)\n\
         sel.appendChild(opt);\n\
     });\n\
 "
-
-with open("preset_machines.js", "w") as f:
+# + "." + time.strftime("%Y%m%d%H%M%S") +
+with open("preset_machines" + ".js", "w") as f:
     f.write(js_content_to_write)
