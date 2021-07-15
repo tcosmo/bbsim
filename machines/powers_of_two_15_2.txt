@@ -1,4 +1,4 @@
-; This machine halts if and only if Erdos' conjecture on powers of two is false:
+; This machine halts if and only if Erdős' conjecture on powers of two is false:
 ;
 ; "For all n > 8, there is at least one 2 in the ternary representation of 2^n"
 ;
