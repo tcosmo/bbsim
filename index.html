@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=.5, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <title>BBsim</title>
     <style>
@@ -16,7 +15,18 @@
         body {
             background-color: #202020;
             color: #d8d8d8;
+            overflow: auto;
         }
+
+
+        @media only screen and (min-width: 768px) {
+            body {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
 
         button:focus {
             outline: none;
@@ -71,7 +81,7 @@
     </style>
 </head>
 
-<body style="display: flex; width: 100%; justify-content: center;">
+<body>
     <div style="width: 900px;">
 
         <h1>Turing Machine simulator</h1>
