@@ -67,7 +67,7 @@ check_halt
 # 0 R rewind
 ```
 
-The simulator is very linent at parsing:
+The simulator is very lenient at parsing:
 
 - It wont check that the states mentioned in transitions do exists
 - It wont check that every read symbol is specified for each state
