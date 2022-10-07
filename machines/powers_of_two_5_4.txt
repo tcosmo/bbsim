@@ -9,6 +9,8 @@
 ; The other states are responsible for checking the conjecture and keeping track of the 3 known special cases:
 ; 1, 4 and 256 which are resepectively 1, 11 and 100111 in base 3.
 ;
+; In https://bbchallenge.org format by @IijiI: 2RB2RB1RA3RA_0LC1RB3RB2RA_0LE1LC2LC3LD_0RB1LD2LD3LD_1RD2RD3RD---
+;
 ; This machine was proven correct: 
 
 initial_state: mul2_G
