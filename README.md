@@ -69,8 +69,8 @@ check_halt
 
 The simulator is very lenient at parsing:
 
-- It wont check that the states mentioned in transitions do exists
-- It wont check that every read symbol is specified for each state
+- It wont check the existence of states mentioned in transitions
+- It wont check that each read symbol is specified for each state
 
 Instead, the simulator will run into a runtime error if an invalid transition is met.
 
