@@ -1,0 +1,27 @@
+; This machine is referred as "complex counter" in the "Attacking BB(5)" paper by Marxen and Buntrock
+; This machine does not halt, it is marked ? in the paper but the behavior can be explained quite simply
+; The machine moves 0s like bubbles in long runs of 1s which it first splits that way: 11111111 -> 11011011011
+; This behavior is recursive.
+
+blank_symbol: 0
+
+A
+0 1 L B
+1 1 R A
+
+B
+0 0 R A
+1 0 L C
+
+C
+0 0 R C
+1 1 L D
+
+D
+0 1 L E
+1 0 R A
+
+E
+0 0 L B
+1 Halt
+

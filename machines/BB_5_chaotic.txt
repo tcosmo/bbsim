@@ -1,0 +1,24 @@
+; This machine is referred as "chaotic" in the "Attacking BB(5)" paper by Marxen and Buntrock
+
+blank_symbol: 0
+
+A
+0 1 L B
+1 1 R B
+
+B
+0 1 R C
+1 0 L E
+
+C
+0 0 R D
+1 0 L A
+
+D
+0 1 L A
+1 0 R D
+
+E
+0 Halt
+1 0 L C
+
